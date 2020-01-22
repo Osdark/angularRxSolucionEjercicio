@@ -13,7 +13,6 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {registerLocaleData} from '@angular/common';
 import es from '@angular/common/locales/es';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
-import {environment} from '../environments/environment';
 
 registerLocaleData(es);
 
@@ -32,7 +31,6 @@ registerLocaleData(es);
     NgZorroAntdModule,
     FormsModule,
     BrowserAnimationsModule,
-    StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production})
   ],
   providers: [{provide: NZ_I18N, useValue: es_ES}],
   bootstrap: [AppComponent]

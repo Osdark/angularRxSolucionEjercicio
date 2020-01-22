@@ -12,15 +12,14 @@ export interface PostState {
 
 export const initialState: PostState = {
   posts: null,
-  loading: false,
+  loading: true,
   error: null
 };
 
 const postsReducer = createReducer(
   initialState,
   on(PostsActions.loadPosts, state => ({
-    ...state,
-    loading: true
+    ...state
   })),
   on(PostsActions.loadPostsSuccess, (state, {posts}) => ({
     ...state,

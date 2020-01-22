@@ -1,30 +1,24 @@
-import { Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, concatMap } from 'rxjs/operators';
-import { EMPTY, of } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
+import {catchError, map, mergeMap} from 'rxjs/operators';
+import {of} from 'rxjs';
 
 import * as PostsActions from './posts.actions';
-
+import {ApiPostService} from '../../../apis/api-post.service';
 
 
 @Injectable()
 export class PostsEffects {
+  loadPosts$ = createEffect(() => this.actions$.pipe(
+    ofType(PostsActions.loadPosts),
+    mergeMap(() =>
+      this.api.getAllPosts().pipe(
+        map(posts => PostsActions.loadPostsSuccess({posts})),
+        catchError(error => of(PostsActions.loadPostFailure({error})))
+      ))
+    )
+  );
 
-  loadPostss$ = createEffect(() => {
-    return this.actions$.pipe( 
-
-      ofType(PostsActions.loadPostss),
-      concatMap(() =>
-        /** An EMPTY observable only emits completion. Replace with your own observable API request */
-        EMPTY.pipe(
-          map(data => PostsActions.loadPostssSuccess({ data })),
-          catchError(error => of(PostsActions.loadPostssFailure({ error }))))
-      )
-    );
-  });
-
-
-
-  constructor(private actions$: Actions) {}
-
+  constructor(private actions$: Actions, private api: ApiPostService) {
+  }
 }

@@ -1,1 +1,8 @@
-<p>posts works!</p>
+<nz-spin [nzSpinning]=loading>
+  <h1>Posts:</h1>
+
+  <div *ngIf=!loading>
+    {{posts$ | async | json}}
+    <div></div>
+  </div>
+</nz-spin>

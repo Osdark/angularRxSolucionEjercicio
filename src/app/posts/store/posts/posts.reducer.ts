@@ -1,25 +1,39 @@
-import { Action, createReducer, on } from '@ngrx/store';
+import {Action, createReducer, on} from '@ngrx/store';
 import * as PostsActions from './posts.actions';
+import {Post} from './post.model';
 
 export const postsFeatureKey = 'posts';
 
-export interface State {
-
+export interface PostState {
+  posts: Post[];
+  loading: boolean;
+  error: string;
 }
 
-export const initialState: State = {
-
+export const initialState: PostState = {
+  posts: null,
+  loading: false,
+  error: null
 };
 
 const postsReducer = createReducer(
   initialState,
-
-  on(PostsActions.loadPostss, state => state),
-  on(PostsActions.loadPostssSuccess, (state, action) => state),
-  on(PostsActions.loadPostssFailure, (state, action) => state),
-
+  on(PostsActions.loadPosts, state => ({
+    ...state,
+    loading: true
+  })),
+  on(PostsActions.loadPostsSuccess, (state, {posts}) => ({
+    ...state,
+    loading: false,
+    posts
+  })),
+  on(PostsActions.loadPostFailure, (state, {error}) => ({
+    ...state,
+    loading: false,
+    error
+  })),
 );
 
-export function reducer(state: State | undefined, action: Action) {
+export function reducer(state: PostState | undefined, action: Action) {
   return postsReducer(state, action);
 }

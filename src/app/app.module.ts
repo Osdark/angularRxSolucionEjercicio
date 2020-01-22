@@ -7,11 +7,13 @@ import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {HttpClientModule} from '@angular/common/http';
 import {PostsModule} from './posts/posts.module';
-import { NgZorroAntdModule, NZ_I18N, es_ES } from 'ng-zorro-antd';
-import { FormsModule } from '@angular/forms';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { registerLocaleData } from '@angular/common';
+import {es_ES, NgZorroAntdModule, NZ_I18N} from 'ng-zorro-antd';
+import {FormsModule} from '@angular/forms';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {registerLocaleData} from '@angular/common';
 import es from '@angular/common/locales/es';
+import {StoreDevtoolsModule} from '@ngrx/store-devtools';
+import {environment} from '../environments/environment';
 
 registerLocaleData(es);
 
@@ -24,13 +26,15 @@ registerLocaleData(es);
     AppRoutingModule,
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
+    StoreDevtoolsModule.instrument({}),
     HttpClientModule,
     PostsModule,
     NgZorroAntdModule,
     FormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production})
   ],
-  providers: [{ provide: NZ_I18N, useValue: es_ES }],
+  providers: [{provide: NZ_I18N, useValue: es_ES}],
   bootstrap: [AppComponent]
 })
 export class AppModule {
